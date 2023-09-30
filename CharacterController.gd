@@ -15,6 +15,14 @@ var jumping = false
 @export
 var umbrella: Node2D
 
+var controls_enabled = true
+
+func enable_controls():
+	controls_enabled = true
+
+func disable_controls():
+	controls_enabled = false
+
 func _ready():
 	$Body.play("Idle")
 	$Eyes.play("default")
@@ -32,13 +40,13 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# Handle Jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if controls_enabled and Input.is_action_just_pressed("jump") and is_on_floor():
 		start_jump()
-	elif jumping and not Input.is_action_pressed("ui_accept"):
+	elif jumping and not Input.is_action_pressed("jump"):
 		print("Not jumping anymore")
 		jumping = false
 		
-	if jumping and Input.is_action_pressed("ui_accept") and jump_timer > 0.0:
+	if jumping and controls_enabled and Input.is_action_pressed("jump") and jump_timer > 0.0:
 		velocity.y += JUMP_FORCE * jump_timer
 		jump_timer -= delta
 		print("Still jumping... vel: " + str(velocity.y))
@@ -46,13 +54,13 @@ func _physics_process(delta):
 	if jump_timer <= 0.0:
 		jumping = false
 		
-	if Input.is_action_just_pressed("move_umbrella"):
-		umbrella.position = self.position
+	#if Input.is_action_just_pressed("move_umbrella"):
+	#	umbrella.position = self.position
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
-	if direction:
+	var direction = Input.get_axis("move_left", "move_right")
+	if controls_enabled and direction:
 		print("Direction: " + str(direction))
 		velocity.x = direction * SPEED
 		

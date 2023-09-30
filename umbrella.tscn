@@ -1,14 +1,14 @@
 [gd_scene load_steps=8 format=3 uid="uid://dwf5wbndk8lay"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvr3p"]
-size = Vector2(16, 70.655)
+size = Vector2(16, 147.6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u46jr"]
 size = Vector2(148.245, 16)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gixdd"]
 cull_mode = 1
-polygon = PackedVector2Array(-64, -32, 64, -32, 64, 32, -64, 32)
+polygon = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
 
 [sub_resource type="Gradient" id="Gradient_2jpno"]
 offsets = PackedFloat32Array(0, 0.775362, 1)
@@ -17,7 +17,7 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_uuh1k"]
 gradient = SubResource("Gradient_2jpno")
 width = 136
-height = 72
+height = 136
 fill = 2
 fill_from = Vector2(0.5, 0.4)
 
@@ -28,6 +28,7 @@ colors = PackedColorArray(1, 1, 1, 0, 0.682353, 0.666667, 1, 0, 0.923056, 1, 0.9
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_5vibm"]
 gradient = SubResource("Gradient_5vphg")
 width = 128
+height = 128
 fill = 2
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0, 0)
@@ -48,13 +49,13 @@ position = Vector2(72, 0)
 shape = SubResource("RectangleShape2D_lvr3p")
 
 [node name="Bottom" type="StaticBody2D" parent="."]
-position = Vector2(0, 40)
+position = Vector2(0, 72)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom"]
 shape = SubResource("RectangleShape2D_u46jr")
 
 [node name="Top" type="StaticBody2D" parent="."]
-position = Vector2(0, -40)
+position = Vector2(0, -72)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Top"]
 shape = SubResource("RectangleShape2D_u46jr")
@@ -64,7 +65,7 @@ occluder = SubResource("OccluderPolygon2D_gixdd")
 occluder_light_mask = 2
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(0, 6)
+position = Vector2(0, 4)
 blend_mode = 2
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_uuh1k")
