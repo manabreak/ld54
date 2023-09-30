@@ -13,6 +13,9 @@ var camera: Camera2D
 
 var camera_target: Node2D
 
+var key_count = 0
+var button_count = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	camera_target = player
@@ -34,3 +37,25 @@ func _process(delta):
 
 func _physics_process(delta):
 	camera.position = camera.position.lerp(camera_target.position, delta * 10.0)
+
+
+func _on_key_body_entered(body):
+	if body == player:
+		print("Player picked up a key!")
+		key_count += 1
+		
+
+
+func _on_unlocker_body_entered(body):
+	if body == player and key_count > 0:
+		print("Player opened a door!")
+		key_count -= 1
+
+func collect_button():
+	button_count += 1
+
+
+func _on_spikes_body_entered(body):
+	if body == player:
+		print("Player hit spikes!")
+		player.kill()

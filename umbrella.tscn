@@ -1,4 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://dwf5wbndk8lay"]
+[gd_scene load_steps=9 format=3 uid="uid://dwf5wbndk8lay"]
+
+[ext_resource type="Script" path="res://umbrella.gd" id="1_c6sjo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lvr3p"]
 size = Vector2(16, 147.6)
@@ -6,20 +8,13 @@ size = Vector2(16, 147.6)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u46jr"]
 size = Vector2(148.245, 16)
 
-[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_gixdd"]
-cull_mode = 1
-polygon = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+[sub_resource type="Gradient" id="Gradient_hl3xp"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
 
-[sub_resource type="Gradient" id="Gradient_2jpno"]
-offsets = PackedFloat32Array(0, 0.775362, 1)
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_uuh1k"]
-gradient = SubResource("Gradient_2jpno")
-width = 136
-height = 136
-fill = 2
-fill_from = Vector2(0.5, 0.4)
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_iwr8v"]
+gradient = SubResource("Gradient_hl3xp")
+width = 128
+height = 128
 
 [sub_resource type="Gradient" id="Gradient_5vphg"]
 offsets = PackedFloat32Array(0, 0.916667, 1)
@@ -33,43 +28,44 @@ fill = 2
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0, 0)
 
-[node name="Umbrella" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_08lop"]
+size = Vector2(132, 20)
+
+[node name="Umbrella" type="StaticBody2D" node_paths=PackedStringArray("umbrella_glow")]
 position = Vector2(10, 17)
+script = ExtResource("1_c6sjo")
+umbrella_glow = NodePath("SpriteTop")
 
-[node name="Left" type="StaticBody2D" parent="."]
+[node name="LeftCollision" type="CollisionShape2D" parent="."]
 position = Vector2(-72, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Left"]
 shape = SubResource("RectangleShape2D_lvr3p")
 
-[node name="Right" type="StaticBody2D" parent="."]
+[node name="RightCollision" type="CollisionShape2D" parent="."]
 position = Vector2(72, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Right"]
 shape = SubResource("RectangleShape2D_lvr3p")
 
-[node name="Bottom" type="StaticBody2D" parent="."]
+[node name="BottomCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, 72)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bottom"]
 shape = SubResource("RectangleShape2D_u46jr")
 
-[node name="Top" type="StaticBody2D" parent="."]
+[node name="TopCollision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -72)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Top"]
 shape = SubResource("RectangleShape2D_u46jr")
-
-[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
-occluder = SubResource("OccluderPolygon2D_gixdd")
-occluder_light_mask = 2
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-position = Vector2(0, 4)
 blend_mode = 2
 shadow_enabled = true
-texture = SubResource("GradientTexture2D_uuh1k")
+texture = SubResource("GradientTexture2D_iwr8v")
 
 [node name="SpriteTop" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.247059)
 texture = SubResource("GradientTexture2D_5vibm")
+
+[node name="MoveDetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MoveDetector"]
+position = Vector2(0, 72)
+shape = SubResource("RectangleShape2D_08lop")
+
+[connection signal="body_entered" from="MoveDetector" to="." method="_on_move_detector_body_entered"]
+[connection signal="body_exited" from="MoveDetector" to="." method="_on_move_detector_body_exited"]
