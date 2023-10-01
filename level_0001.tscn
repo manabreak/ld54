@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://8hmtcpreq805"]
+[gd_scene load_steps=45 format=3 uid="uid://8hmtcpreq805"]
 
 [ext_resource type="Script" path="res://GameController.gd" id="1_ejlc7"]
 [ext_resource type="Texture2D" uid="uid://bl565afw3syd3" path="res://assets/tileset.png" id="2_uf2fj"]
@@ -13,6 +13,10 @@
 [ext_resource type="Script" path="res://OldYarn.gd" id="12_5dhux"]
 [ext_resource type="Texture2D" uid="uid://b0fckv7v2rttu" path="res://assets/yarn_blue.png" id="12_lpwxk"]
 [ext_resource type="Texture2D" uid="uid://c1sjblvbqmeg8" path="res://assets/button_pink.png" id="12_wvi4m"]
+[ext_resource type="AudioStream" uid="uid://y04dqrcewc2y" path="res://assets/ld54_sound_07.wav" id="14_rehrf"]
+[ext_resource type="AudioStream" uid="uid://b4uo8g85y3y8u" path="res://assets/ld54_sound_03.wav" id="15_h3mgq"]
+[ext_resource type="AudioStream" uid="uid://bwvro3kpd6gqg" path="res://assets/ld54_sound_05.wav" id="15_k6acf"]
+[ext_resource type="AudioStream" uid="uid://b08u6atfatkyw" path="res://assets/ld54_sound_06.wav" id="15_xtb6k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ixpn4"]
 texture = ExtResource("2_uf2fj")
@@ -286,12 +290,14 @@ top_level = true
 clip_children = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Level" type="Node2D" parent="." node_paths=PackedStringArray("player", "umbrella", "camera", "old_yarn")]
+[node name="Level" type="Node2D" parent="." node_paths=PackedStringArray("player", "umbrella", "camera", "old_yarn", "fader")]
 script = ExtResource("1_ejlc7")
 player = NodePath("Player")
 umbrella = NodePath("Umbrella")
 camera = NodePath("Camera2D")
 old_yarn = NodePath("OldYarn")
+level = 1
+fader = NodePath("../GUI/ColorRect")
 
 [node name="TileMap" type="TileMap" parent="Level"]
 position = Vector2(4, 0)
@@ -313,7 +319,6 @@ umbrella = NodePath("../Umbrella")
 [node name="Umbrella" parent="Level" node_paths=PackedStringArray("player") instance=ExtResource("4_4kl7l")]
 position = Vector2(236, 72)
 player = NodePath("../Player")
-outside_color = Color(0, 0, 0, 0.835294)
 
 [node name="Camera2D" type="Camera2D" parent="Level"]
 zoom = Vector2(3, 3)
@@ -322,11 +327,12 @@ position_smoothing_speed = 2.455
 [node name="Key" parent="Level" instance=ExtResource("6_hkyk3")]
 position = Vector2(457, 128)
 
-[node name="Door" type="StaticBody2D" parent="Level" node_paths=PackedStringArray("game_controller", "player")]
+[node name="Door" type="StaticBody2D" parent="Level" node_paths=PackedStringArray("game_controller", "player", "door_sound")]
 position = Vector2(460, 56)
 script = ExtResource("7_xebjc")
 game_controller = NodePath("..")
 player = NodePath("../Player")
+door_sound = NodePath("../DoorSound")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Door"]
 position = Vector2(0, -8)
@@ -349,18 +355,18 @@ texture = ExtResource("9_ayb3u")
 position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_vv1rv")
 
-[node name="Button" type="Area2D" parent="Level" node_paths=PackedStringArray("game_controller", "player")]
-position = Vector2(316, 82)
+[node name="Button11" type="Area2D" parent="Level" node_paths=PackedStringArray("game_controller", "player")]
+position = Vector2(316, 81)
 script = ExtResource("11_qoj2o")
 game_controller = NodePath("..")
 player = NodePath("../Player")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Button"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Button11"]
 shape = SubResource("CircleShape2D_7t8kn")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Level/Button"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Level/Button11"]
 sprite_frames = SubResource("SpriteFrames_52hnd")
-frame_progress = 0.363752
+frame_progress = 0.85466
 
 [node name="Button2" type="Area2D" parent="Level" node_paths=PackedStringArray("game_controller", "player")]
 position = Vector2(326, 19)
@@ -507,8 +513,20 @@ sprite_frames = SubResource("SpriteFrames_x7k7i")
 sprite_frames = SubResource("SpriteFrames_e2sti")
 
 [node name="LevelChangeTimer" type="Timer" parent="Level/OldYarn"]
-wait_time = 3.0
+wait_time = 2.0
 one_shot = true
+
+[node name="ChatterShort" type="AudioStreamPlayer" parent="Level/OldYarn"]
+stream = ExtResource("14_rehrf")
+
+[node name="ChatterLong" type="AudioStreamPlayer" parent="Level/OldYarn"]
+stream = ExtResource("15_xtb6k")
+
+[node name="ButtonSound" type="AudioStreamPlayer" parent="Level"]
+stream = ExtResource("15_h3mgq")
+
+[node name="DoorSound" type="AudioStreamPlayer" parent="Level"]
+stream = ExtResource("15_k6acf")
 
 [node name="GUI" type="CanvasLayer" parent="."]
 follow_viewport_scale = 0.25
@@ -531,10 +549,18 @@ theme_override_fonts/font = SubResource("SystemFont_vxllg")
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 
+[node name="ColorRect" type="ColorRect" parent="GUI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [connection signal="body_entered" from="Level/TileMap/Spikes" to="Level" method="_on_spikes_body_entered"]
 [connection signal="body_entered" from="Level/Key" to="Level" method="_on_key_body_entered"]
 [connection signal="body_entered" from="Level/Door/Unlocker" to="Level/Door" method="_on_unlocker_body_entered"]
-[connection signal="body_entered" from="Level/Button" to="Level/Button" method="_on_body_entered"]
+[connection signal="body_entered" from="Level/Button11" to="Level/Button11" method="_on_body_entered"]
 [connection signal="body_entered" from="Level/Button2" to="Level/Button2" method="_on_body_entered"]
 [connection signal="body_entered" from="Level/Button3" to="Level/Button3" method="_on_body_entered"]
 [connection signal="body_entered" from="Level/Button4" to="Level/Button4" method="_on_body_entered"]

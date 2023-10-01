@@ -12,4 +12,7 @@ func _process(delta):
 
 
 func _on_body_entered(body):
+	var sound = $CollectSound
+	sound.reparent(get_parent())
+	sound.play()
 	queue_free()

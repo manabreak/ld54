@@ -1,7 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://wqctbo47k485"]
+[gd_scene load_steps=26 format=3 uid="uid://wqctbo47k485"]
 
 [ext_resource type="Script" path="res://CharacterController.gd" id="1_gwoh2"]
 [ext_resource type="Texture2D" uid="uid://bxtfd08qgl7jw" path="res://assets/yarn.png" id="2_clv4j"]
+[ext_resource type="AudioStream" uid="uid://bkdbbknsgrbhh" path="res://assets/ld54_sound_01.wav" id="3_lau6j"]
+[ext_resource type="AudioStream" uid="uid://b38tjgiaheo2j" path="res://assets/ld54_sound_04.wav" id="4_j32ni"]
 
 [sub_resource type="Gradient" id="Gradient_wixlu"]
 offsets = PackedFloat32Array(0, 0.90625, 1)
@@ -198,3 +200,9 @@ frame_progress = 0.489456
 visible = false
 blend_mode = 2
 texture = SubResource("GradientTexture2D_2boke")
+
+[node name="JumpSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_lau6j")
+
+[node name="DeathSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_j32ni")

@@ -39,11 +39,13 @@ func _ready():
 func kill():
 	position = initial_position
 	umbrella.position = position
+	$DeathSound.play()
 
 func start_jump():
 	jump_timer = JUMP_TIMER
 	jumping = true
 	velocity.y = JUMP_VELOCITY_INITIAL
+	$JumpSound.play()
 
 func _physics_process(delta):
 	$Rain.position = umbrella.position + Vector2(0.0, -300.0)

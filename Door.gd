@@ -6,6 +6,9 @@ var game_controller: Node2D
 @export
 var player: Node2D
 
+@export
+var door_sound: AudioStreamPlayer
+
 func _on_unlocker_body_entered(body):
 	print("Body entered door unlocker")
 	if body == player:
@@ -16,4 +19,5 @@ func _on_unlocker_body_entered(body):
 
 func open_door():
 	var lock = $Lock
+	door_sound.play()
 	queue_free()

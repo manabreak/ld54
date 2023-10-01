@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bodxmmkgthcnw"]
+[gd_scene load_steps=16 format=3 uid="uid://bodxmmkgthcnw"]
 
 [ext_resource type="PackedScene" uid="uid://wqctbo47k485" path="res://player.tscn" id="1_thlpc"]
 [ext_resource type="Script" path="res://GameController.gd" id="1_u3kxk"]
 [ext_resource type="PackedScene" uid="uid://dwf5wbndk8lay" path="res://umbrella.tscn" id="3_dj6i3"]
-[ext_resource type="Script" path="res://umbrella.gd" id="5_t8vfo"]
 [ext_resource type="Script" path="res://Key.gd" id="6_7bkgf"]
 [ext_resource type="Texture2D" uid="uid://btw3jtgmcuygd" path="res://assets/key.png" id="6_83qny"]
 
@@ -91,7 +90,6 @@ umbrella = NodePath("../Umbrella")
 
 [node name="Umbrella" parent="Level" node_paths=PackedStringArray("player") instance=ExtResource("3_dj6i3")]
 position = Vector2(89, 66)
-script = ExtResource("5_t8vfo")
 player = NodePath("../Player")
 
 [node name="Camera2D" type="Camera2D" parent="Level"]

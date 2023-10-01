@@ -14,6 +14,12 @@ var camera: Camera2D
 @export
 var old_yarn: Node2D
 
+@export
+var level: int
+
+@export
+var fader: ColorRect
+
 var camera_target: Node2D
 
 var key_count = 0
@@ -22,6 +28,9 @@ var button_count = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	camera_target = umbrella
+	fader.color = Color.BLACK
+	var tween = get_tree().create_tween()
+	tween.tween_property(fader, "color", Color(0, 0, 0, 0), 2.0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -56,6 +65,7 @@ func _on_unlocker_body_entered(body):
 
 func collect_button():
 	button_count += 1
+	$ButtonSound.play()
 
 
 func _on_spikes_body_entered(body):
@@ -63,7 +73,16 @@ func _on_spikes_body_entered(body):
 		print("Player hit spikes!")
 		player.kill()
 
+func fadeout_done():
+	if level == 1:
+		print("Level changing!")
+		get_tree().change_scene_to_file("res://level_0002.tscn")
+	else:
+		print("Game done, fading out...")
 
 func _on_level_change_timer_timeout():
-	print("Level changing!")
-	get_tree().change_scene_to_file("res://level_0002.tscn")
+	var tween = get_tree().create_tween()
+	tween.tween_property(fader, "color", Color.BLACK, 2.0)
+	tween.tween_callback(self.fadeout_done)
+	
+	

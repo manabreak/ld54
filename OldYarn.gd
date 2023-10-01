@@ -85,7 +85,7 @@ func show_message(msg):
 	print("Show messsage: " + msg)
 	label.text = msg
 	var tween = get_tree().create_tween()
-	tween.tween_property(label, "self_modulate", Color.WHITE, 1.0)
+	tween.tween_property(label, "self_modulate", Color.WHITE, 0.3)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -96,6 +96,7 @@ func _process(delta):
 				speaking = false
 				player.enable_controls()
 			else:
+				$ChatterShort.play()
 				show_message(get_message())
 				
 
@@ -115,12 +116,9 @@ func _on_body_entered(body):
 			
 			player.disable_controls()
 			$LevelChangeTimer.start()
-			
-		var tween = get_tree().create_tween()
-		tween.tween_property(label, "self_modulate", Color.WHITE, 1.0)
 
 
 func _on_body_exited(body):
-	if body == player:
+	if body == player and not speaking:
 		var tween = get_tree().create_tween()
 		tween.tween_property(label, "self_modulate", Color.TRANSPARENT, 0.3)
