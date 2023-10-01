@@ -11,6 +11,9 @@ var umbrella: Node2D
 @export
 var camera: Camera2D
 
+@export
+var old_yarn: Node2D
+
 var camera_target: Node2D
 
 var key_count = 0
@@ -18,18 +21,18 @@ var button_count = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	camera_target = player
+	camera_target = umbrella
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("switch_controls"):
+	if Input.is_action_just_pressed("switch_controls") and not old_yarn.speaking:
 		player_controlled = not player_controlled
 		
 		if player_controlled:
 			player.enable_controls()
 			umbrella.disable_controls()
-			camera_target = player
+			camera_target = umbrella
 		else:
 			player.disable_controls()
 			umbrella.enable_controls()
@@ -59,3 +62,8 @@ func _on_spikes_body_entered(body):
 	if body == player:
 		print("Player hit spikes!")
 		player.kill()
+
+
+func _on_level_change_timer_timeout():
+	print("Level changing!")
+	get_tree().change_scene_to_file("res://level_0002.tscn")

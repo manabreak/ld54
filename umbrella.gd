@@ -11,6 +11,9 @@ var umbrella_glow: Sprite2D
 @onready
 var umbrella_glow_color = umbrella_glow.self_modulate
 
+@export
+var outside_color: Color
+
 var controls_enabled = false
 var player_on_umbrella = false
 
@@ -22,14 +25,35 @@ func enable_controls():
 		umbrella_glow.self_modulate = umbrella_glow_color
 	
 	umbrella_glow.self_modulate.a = 0.7
+	
+	$EnemyBlocker.set_collision_layer_value(4, false)
 
 func disable_controls():
 	controls_enabled = false
 	umbrella_glow.self_modulate = umbrella_glow_color
+	
+	$EnemyBlocker.set_collision_layer_value(4, true)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var color = outside_color
+	$Left.size = Vector2(1000.0, 128.0)
+	$Left.position = Vector2(-1000.0 - 64.0, -64.0)
+	$Left.color = color
+	$Right.size = Vector2(1000.0, 128.0)
+	$Right.position = Vector2(64.0, -64.0)
+	$Right.color = color
+	$Bottom.size = Vector2(1000.0, 1000.0)
+	$Bottom.position = Vector2(-500.0, 0.0 + 64.0)
+	$Bottom.color = color
+	$Top.size = Vector2(1000.0, 1000.0)
+	$Top.position = Vector2(-500.0, -1000.0 - 64.0)
+	$Top.color = color
+	
+	$Left.z_index = 5
+	$Right.z_index = 5
+	$Bottom.z_index = 5
+	$Top.z_index = 5
 
 
 func _physics_process(delta):

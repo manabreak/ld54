@@ -17,20 +17,29 @@ particle_flag_disable_z = true
 direction = Vector3(0.18, 1, 0)
 spread = 0.0
 flatness = 0.4
-gravity = Vector3(0, 98, 0)
-initial_velocity_min = 71.85
-initial_velocity_max = 84.45
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 304.11
+initial_velocity_max = 400.88
+angular_velocity_min = 5.0
+angular_velocity_max = 50.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
+radial_accel_min = 9.03
+radial_accel_max = 45.16
+tangential_accel_min = 6.45
+tangential_accel_max = 21.93
 angle_min = 90.0
 angle_max = 90.0
+scale_min = 0.6
+scale_max = 1.1
 color_ramp = SubResource("GradientTexture1D_2owci")
 collision_mode = 1
-collision_friction = 0.05
-collision_bounce = 0.1
+collision_friction = 0.17
+collision_bounce = 0.03
+collision_use_scale = true
 
 [sub_resource type="Gradient" id="Gradient_s7y36"]
-colors = PackedColorArray(1, 1, 1, 0, 0, 0, 0, 1)
+colors = PackedColorArray(1, 1, 1, 0.333333, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_qoepc"]
 gradient = SubResource("Gradient_s7y36")
@@ -158,12 +167,15 @@ script = ExtResource("1_gwoh2")
 top_level = true
 clip_children = 2
 visibility_layer = 3
-position = Vector2(2, -181)
-amount = 4000
+z_index = 10
+z_as_relative = false
+position = Vector2(9, -174)
+amount = 8000
 process_material = SubResource("ParticleProcessMaterial_ba6q4")
 texture = SubResource("GradientTexture1D_qoepc")
 lifetime = 2.85
 preprocess = 7.55
+visibility_rect = Rect2(-400, -200, 800, 400)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gb476")

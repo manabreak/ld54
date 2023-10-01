@@ -30,6 +30,11 @@ func _ready():
 	$Body.play("Idle")
 	$Eyes.play("default")
 	$Tail.play("default")
+	
+	$Body.flip_h = true
+	$Eyes.flip_h = true
+	$Tail.flip_h = true
+	$Tail.position.x = 14
 
 func kill():
 	position = initial_position
@@ -41,6 +46,8 @@ func start_jump():
 	velocity.y = JUMP_VELOCITY_INITIAL
 
 func _physics_process(delta):
+	$Rain.position = umbrella.position + Vector2(0.0, -300.0)
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
