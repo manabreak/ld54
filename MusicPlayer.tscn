@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://cmcselkeg8vc1"]
+
+[ext_resource type="Script" path="res://MusicPlayer.gd" id="1_on5f1"]
+[ext_resource type="AudioStream" uid="uid://bw0dxuks66srx" path="res://assets/ld54_intro.ogg" id="1_rsvop"]
+[ext_resource type="AudioStream" uid="uid://dxkemlxndlbeo" path="res://assets/ld54_loop.ogg" id="2_exwxk"]
+
+[node name="MusicPlayer" type="Node"]
+script = ExtResource("1_on5f1")
+
+[node name="Intro" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_rsvop")
+
+[node name="Loop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_exwxk")
+
+[connection signal="finished" from="Intro" to="." method="_on_intro_finished"]
+[connection signal="finished" from="Loop" to="." method="_on_loop_finished"]

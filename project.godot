@@ -15,6 +15,10 @@ run/main_scene="res://level_0001.tscn"
 config/features=PackedStringArray("4.1", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+MusicPlayer="*res://MusicPlayer.tscn"
+
 [dotnet]
 
 project/assembly_name="LD 54"
